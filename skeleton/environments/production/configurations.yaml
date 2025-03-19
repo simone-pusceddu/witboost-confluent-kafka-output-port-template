@@ -1,0 +1,24 @@
+{%- set domain = values.identifier.split(".")[0] -%}
+{%- set parent = values.identifier.split(".")[1] -%}
+{%- set parentVersion = values.identifier.split(".")[2] -%}
+{%- set component = values.identifier.split(".")[3] -%}
+{%- set env = 'production' -%}
+specific:
+  topic:
+    name: ${{ domain }}_${{ parent }}_${{ parentVersion }}_${{ component }}_${{ env }}
+  ownerPermissions:
+    - resourceType: TOPIC
+      resourceName: ${{ domain }}_${{ parent }}_${{ parentVersion }}_${{ component }}_${{ env }}
+      resourcePatternType: LITERAL
+      operation: READ
+      permissionType: ALLOW
+    - resourceType: TOPIC
+      resourceName: ${{ domain }}_${{ parent }}_${{ parentVersion }}_${{ component }}_${{ env }}
+      resourcePatternType: LITERAL
+      operation: WRITE
+      permissionType: ALLOW
+    - resourceType: GROUP
+      resourceName: ${{ domain }}_${{ parent }}_${{ parentVersion }}_${{ component }}_${{ env }}_owner_consumer_group
+      resourcePatternType: LITERAL
+      operation: READ
+      permissionType: ALLOW

@@ -1,0 +1,34 @@
+metadata:
+  description: ${{ values.description }}
+spec:
+  mesh:
+    description: ${{ values.description }}
+    dependsOn: {% if values.dependsOn | length > 0 %}{% for i in values.dependsOn %}
+      - ${{ i }}{% endfor %}{% else %}[]{% endif %}
+    tags: {% if values.tags | length > 0 %}{% for i in values.tags %}
+      - tagFQN: ${{ i }}
+        source: Classification
+        labelType: Manual
+        state: Confirmed{% endfor %}{% else %}[]{% endif %}
+    dataContract:
+      termsAndConditions: ${{ values.termsAndConditions }}
+      SLA:
+        intervalOfChange: ${{ values.intervalOfChange }}
+        timeliness: ${{ values.timeliness }}
+        upTime: ${{ values.upTime }}
+    dataSharingAgreement:
+      purpose: ${{ values.purpose }}
+      billing: ${{ values.billing }}
+      security: ${{ values.security }}
+      intendedUsage: ${{ values.intendedUsage }}
+      limitations: ${{ values.limitations }}
+      lifeCycle: ${{ values.lifeCycle }}
+      confidentiality: ${{ values.confidentiality }}
+    specific:
+      topic:
+        numPartitions: ${{ values.numPartitions }}
+        config: {% if values.enableAdvancedSettings %}{% for i in values.advancedSettings %}
+          ${{ i.key }}: ${{ i.value }}{% endfor %}{% else %}{}{% endif %}
+        valueSchema: {% if values.enableMessageValueSchema %}
+          type: ${{ values.messageValueSchemaType }}
+          definition: ${{ values.messageValueSchemaDefinition | safe }}{% else %}null{% endif %}

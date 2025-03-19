@@ -1,0 +1,62 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.identifier }}
+  description: ${{ values.description }}
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - output-port
+    - confluent
+    - kafka
+spec:
+  type: outputport
+  lifecycle: experimental
+  owner: ${{ values.owner }}
+  system: ${{ values.parentRef }}
+  domain: ${{ values.domain }}
+  mesh:
+    name: ${{ values.name }}
+    fullyQualifiedName: ${{ values.domainName }} - ${{ values.dataproductName }} - version ${{ values.identifier.split(".")[2] }} - ${{ values.name }}
+    description: ${{ values.description }}
+    kind: outputport
+    version: 0.0.0
+    infrastructureTemplateId: ${{ values.infrastructureTemplateId }}
+    useCaseTemplateId: ${{ values.useCaseTemplateId }}
+    dependsOn: {% if values.dependsOn | length > 0 %}{% for i in values.dependsOn %}
+      - ${{ i }}{% endfor %}{% else %}[]{% endif %}
+    platform: Confluent
+    technology: Kafka
+    outputPortType: Events
+    tags: {% if values.tags | length > 0 %}{% for i in values.tags %}
+      - tagFQN: ${{ i }}
+        source: Classification
+        labelType: Manual
+        state: Confirmed{% endfor %}{% else %}[]{% endif %}
+    dataContract:
+      termsAndConditions: ${{ values.termsAndConditions }}
+      SLA:
+        intervalOfChange: ${{ values.intervalOfChange }}
+        timeliness: ${{ values.timeliness }}
+        upTime: ${{ values.upTime }}
+    dataSharingAgreement:
+      purpose: ${{ values.purpose }}
+      billing: ${{ values.billing }}
+      security: ${{ values.security }}
+      intendedUsage: ${{ values.intendedUsage }}
+      limitations: ${{ values.limitations }}
+      lifeCycle: ${{ values.lifeCycle }}
+      confidentiality: ${{ values.confidentiality }}
+    sampleData: {}
+    semanticLinking: []
+    specific:
+      topic:
+        name: ''
+        numPartitions: ${{ values.numPartitions }}
+        replicationFactor: ${{ values.replicationFactor }}
+        config: {% if values.enableAdvancedSettings %}{% for i in values.advancedSettings %}
+          ${{ i.key }}: ${{ i.value }}{% endfor %}{% else %}{}{% endif %}
+        valueSchema: {% if values.enableMessageValueSchema %}
+          type: ${{ values.messageValueSchemaType }}
+          definition: ${{ values.messageValueSchemaDefinition | safe }}{% else %}null{% endif %}
+      ownerPermissions: []

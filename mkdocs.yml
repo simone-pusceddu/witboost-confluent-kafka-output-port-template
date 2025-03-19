@@ -1,0 +1,8 @@
+site_name: "Confluent Kafka Output Port Template"
+site_description: "Template to create an instance of a Confluent Kafka Output Port"
+
+nav:
+  - Template Usage: index.md
+
+plugins:
+  - techdocs-core
