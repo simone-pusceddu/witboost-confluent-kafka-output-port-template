@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: confluent-kafka-output-port-template.0
-  title: Confluent Kafka Output Port Template
+  name: confluent-kafka-output-port-template-skeleton
+  title: Confluent Kafka Output Port Template (Skeleton)
   description: Allow to manage a Kafka Topic as an Output Port
   annotations:
     backstage.io/techdocs-ref: dir:.
@@ -315,7 +315,7 @@ spec:
           messageValueSchemaDefinition: ${{ parameters.messageValueSchemaDefinition | dump }}
           useCaseTemplateId: urn:dmb:utm:confluent-kafka-outputport-template:0.0.0
           infrastructureTemplateId: urn:dmb:itm:confluent-kafka-tech-adapter:0
-          destination: &destination 'gitlab.com?owner=AgileDMBSandbox%2F${{orgname}}%2Fmesh.repository%2F${{ parameters.domain | replace(r/domain:| |-/, "") }}%2F${{ parameters.parentRef.split(".")[1] | replace(r/ |-/g, "") }}&repo=${{ parameters.name.split(" ") | join("") | lower }}'
+          destination: &destination 'gitlab.com?owner=simone.pusceddu&repo=${{ parameters.name.split(" ") | join("") | lower }}'
           useCaseTemplateVersion: 0.0.0
 
     - id: publish
